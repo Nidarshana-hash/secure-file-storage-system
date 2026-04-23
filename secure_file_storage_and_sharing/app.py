@@ -22,7 +22,7 @@ app.secret_key = 'your_secret_key'
 from pymongo import MongoClient, errors
 
 try:
-    client = MongoClient('mongodb+srv://Nidar:Nidar2005@cluster1.gfjaiti.mongodb.net/secure_file_storage?retryWrites=true&w=majority&appName=Cluster1')
+    client = MongoClient('your url')
     client.server_info()  # This checks the connection
     db = client['secure_file_storage']
     print("Connected to MongoDB Atlas successfully.")
