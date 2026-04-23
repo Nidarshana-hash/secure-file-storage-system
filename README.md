@@ -30,7 +30,7 @@ Ensured confidentiality with encryption and password protection
 Improved user control with an access request system
 
 # Database:
-used mongoDB database to store:
+Used MongoDB database to store:
     1.user credentials
     2.uploaded files
     3.encrypted file passwords and credetials
