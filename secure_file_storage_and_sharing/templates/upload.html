@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File - Secure Storage</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* This CSS ensures the page behaves like a professional app */
+        body {
+            display: flex; /* Enables centering */
+            justify-content: center; /* Centers horizontally */
+            align-items: center; /* Centers vertically */
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f8fafc; /* Matches your dashboard background */
+            font-family: 'Inter', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px; /* Limits width so labels don't stretch */
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        h1 { font-size: 1.5rem; text-align: center; margin-bottom: 0.5rem; }
+        
+        label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 8px; 
+            font-size: 0.9rem; 
+            color: #1e293b;
+        }
+
+        input[type="password"], input[type="file"] {
+            width: 100%; /* Fits inside the 450px container */
+            box-sizing: border-box; /* Prevents padding from causing overflow */
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Upload New File</h1>
+            <p style="text-align: center; color: #64748b; margin-bottom: 2rem; font-size: 0.9rem;">
+                Protect your documents with professional-grade AES encryption.
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="error-messages" style="background: #fee2e2; color: #ef4444; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; text-align: center;">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                
+                <label for="file">Select Document</label>
+                <input type="file" name="file" id="file" required 
+                       style="background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 20px;">
+
+                <label for="file_password">Set Encryption Password</label>
+                <input type="password" name="file_password" id="file_password" placeholder="••••••••" required>
+                <small style="display: block; color: #64748b; margin-top: -15px; margin-bottom: 20px; font-size: 0.75rem;">
+                    This password is required to download or view the file later.
+                </small>
+
+                <input type="submit" value="Securely Upload" class="btn">
+            </form>
+
+            <div style="margin-top: 2rem; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
+                <a href="{{ url_for('home') }}" style="color: #2563eb; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

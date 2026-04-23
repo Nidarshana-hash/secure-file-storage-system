@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Received Files - Secure Storage</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Forces the layout to center and limits width to professional card size */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 50px;
+            background-color: #f8fafc;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px; /* Slightly wider to accommodate file names and status */
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .file-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-progress { background: #e0f2fe; color: #075985; }
+        .status-approved { background: #dcfce7; color: #166534; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Received Files</h1>
+            <p style="text-align: center; color: #64748b; margin-bottom: 2rem; font-size: 0.9rem;">
+                Manage access to files shared with you by other users.
+            </p>
+
+            <ul class="file-list">
+                {% for file in received_files %}
+                    <li class="file-item">
+                        <div>
+                            <span style="font-weight: 600; color: #1e293b;">{{ file.sender }}</span>
+                            <span style="color: #64748b; margin: 0 5px;">shared</span>
+                            
+                            {% if file.status == 'pending' %}
+                                <a href="{{ url_for('request_enter_file_password', shared_file_id=file._id) }}" style="color: #2563eb; text-decoration: none; font-weight: 500;">
+                                    {{ file.filename }}
+                                </a>
+                            {% elif file.status == 'approved' %}
+                                <a href="{{ url_for('download_file_with_status_check', filename=file.filename) }}" style="color: #2563eb; text-decoration: none; font-weight: 500;">
+                                    {{ file.filename }}
+                                </a>
+                            {% else %}
+                                <span style="color: #1e293b; font-weight: 500;">{{ file.filename }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            {% if file.status == 'pending' %}
+                                <span class="status-badge status-pending">Pending</span>
+                            {% elif file.status == 'in_progress' %}
+                                <span class="status-badge status-progress">Request Sent</span>
+                            {% elif file.status == 'approved' %}
+                                <span class="status-badge status-approved">Approved</span>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% else %}
+                    <li style="text-align: center; color: #64748b; padding: 2rem;">
+                        No files have been shared with you yet.
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div style="margin-top: 2rem; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
+                <a href="{{ url_for('home') }}" style="color: #2563eb; text-decoration: none; font-weight: 600; font-size: 0.85rem;">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

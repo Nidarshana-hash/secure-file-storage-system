@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Secure Storage</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Ensures the page is centered and the card is a professional size */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 50px;
+            background-color: #f8fafc;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+        .notification-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .notification-info p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+        .notification-info strong {
+            color: #1e293b;
+        }
+        .action-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+        .btn-deny {
+            background-color: #ef4444; /* Red for deny */
+        }
+        .btn-deny:hover {
+            background-color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card" style="margin-bottom: 2rem;">
+            <h1>Notifications</h1>
+            <p style="text-align: center; color: #64748b; margin-bottom: 1rem; font-size: 0.9rem;">
+                Manage incoming access requests for your secured files.
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="{{ 'error-messages' if category == 'error' else 'success-message' }}" 
+                             style="padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; text-align: center;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% for notification in notifications %}
+                <div class="notification-card">
+                    <div class="notification-info">
+                        <p><strong>Sender:</strong> {{ notification.sender }}</p>
+                        <p><strong>Recipient:</strong> {{ notification.recipient_username }}</p>
+                        <p><strong>File:</strong> {{ notification.filename }}</p>
+                    </div>
+                    
+                    <div class="action-group">
+                        <form action="{{ url_for('allow_access', notification_id=notification._id) }}" method="post" style="flex: 1;">
+                            <input class="btn" type="submit" value="Allow" style="width: 100%;">
+                        </form>
+                        <form action="{{ url_for('deny_access', notification_id=notification._id) }}" method="post" style="flex: 1;">
+                            <input class="btn btn-deny" type="submit" value="Deny" style="width: 100%;">
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <p style="text-align: center; color: #94a3b8; padding: 2rem;">No new access requests.</p>
+            {% endfor %}
+
+            <div style="margin-top: 1.5rem; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 1.5rem;">
+                <a href="{{ url_for('home') }}" style="color: #2563eb; text-decoration: none; font-weight: 600; font-size: 0.85rem;">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

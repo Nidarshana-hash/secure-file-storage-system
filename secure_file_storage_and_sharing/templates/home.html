@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Secure Storage</title>
+</head>
+<body>
+    <div class="container container-wide">
+        <header style="margin-bottom: 3rem; text-align: center;">
+            <h1 style="margin-bottom: 0.5rem;">User Dashboard</h1>
+            <p style="color: var(--text-muted);">Manage your encrypted files and access requests</p>
+        </header>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; justify-content: center; width: 100%; max-width: 800px; margin: 0 auto;">
+            
+            <a href="{{ url_for('upload_file') }}" class="card btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: white; color: var(--text-main); border: 1px solid var(--border); padding: 2.5rem; box-sizing: border-box; width: 100%; border-radius: 16px; margin: 0;">
+                <span style="font-size: 2.5rem; margin-bottom: 1rem;">📤</span>
+                <span style="font-weight: 700; font-size: 1.2rem; display: block; width: 100%;">Upload File</span>
+                <small style="color: var(--text-muted); font-weight: normal; margin-top: 5px; display: block; width: 100%;">Add new encrypted data</small>
+            </a>
+
+            <a href="{{ url_for('files') }}" class="card btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: white; color: var(--text-main); border: 1px solid var(--border); padding: 2.5rem; box-sizing: border-box; width: 100%; border-radius: 16px; margin: 0;">
+                <span style="font-size: 2.5rem; margin-bottom: 1rem;">📂</span>
+                <span style="font-weight: 700; font-size: 1.2rem; display: block; width: 100%;">My Storage</span>
+                <small style="color: var(--text-muted); font-weight: normal; margin-top: 5px; display: block; width: 100%;">Browse your saved files</small>
+            </a>
+
+            <a href="{{ url_for('share') }}" class="card btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: white; color: var(--text-main); border: 1px solid var(--border); padding: 2.5rem; box-sizing: border-box; width: 100%; border-radius: 16px; margin: 0;">
+                <span style="font-size: 2.5rem; margin-bottom: 1rem;">🔗</span>
+                <span style="font-weight: 700; font-size: 1.2rem; display: block; width: 100%;">Share File</span>
+                <small style="color: var(--text-muted); font-weight: normal; margin-top: 5px; display: block; width: 100%;">Manage recipient access</small>
+            </a>
+
+            <a href="{{ url_for('received_files') }}" class="card btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: white; color: var(--text-main); border: 1px solid var(--border); padding: 2.5rem; box-sizing: border-box; width: 100%; border-radius: 16px; margin: 0;">
+                <span style="font-size: 2.5rem; margin-bottom: 1rem;">📥</span>
+                <span style="font-weight: 700; font-size: 1.2rem; display: block; width: 100%;">Received</span>
+                <small style="color: var(--text-muted); font-weight: normal; margin-top: 5px; display: block; width: 100%;">Files shared with you</small>
+            </a>
+
+            <a href="{{ url_for('notifications') }}" class="card btn" style="grid-column: 1 / -1; display: flex; align-items: center; background: var(--primary); color: white; padding: 1.5rem; border-radius: 16px; margin: 0; box-sizing: border-box;">
+                <span style="font-size: 1.5rem; margin-right: 1.5rem;">🔔</span>
+                <div style="text-align: left;">
+                    <span style="font-weight: 700; display: block; width: 100%;">Access Notifications</span>
+                    <small style="opacity: 0.9; display: block; width: 100%;">View and manage pending file requests</small>
+                </div>
+                <span style="margin-left: auto; font-size: 1.2rem;">→</span>
+            </a>
+        </div>
+
+        <footer style="margin-top: 4rem; text-align: center;">
+            <a href="{{ url_for('login') }}" style="color: var(--error); text-decoration: none; font-weight: 600; font-size: 0.9rem;">Sign Out Securely</a>
+        </footer>
+    </div>
+</body>
+</html>
